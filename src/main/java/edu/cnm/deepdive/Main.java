@@ -17,23 +17,23 @@ import java.io.IOException;
  */
 public class Main extends Application {
 
-  private static final String LAYOUT_RESOURCE = "layouts/rps.fxml";
-  private static final String RESOURCE_BUNDLE = "bundles/strings";
+  private static final String LAYOUT_RESOURCE = "rps.fxml";
+  private static final String RESOURCE_BUNDLE =
+      Main.class.getPackageName().replace('.', '/') + "/strings";
   private static final String WINDOW_TITLE_KEY = "window_title";
-  private static final String ICON_RESOURCE = "images/icon.png";
+  private static final String ICON_RESOURCE = "icon.png";
 
   private RpsController controller;
 
   @Override
   public void start(Stage stage) throws IOException {
-    ClassLoader classLoader = getClass().getClassLoader(); //get reference of that class that was loaded
     ResourceBundle bundle = ResourceBundle.getBundle(RESOURCE_BUNDLE);
-    FXMLLoader fxmlLoader = new FXMLLoader(classLoader.getResource(LAYOUT_RESOURCE), bundle);//use classLoader to locate this file
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(LAYOUT_RESOURCE), bundle);//use classLoader to locate this file
     Parent root = fxmlLoader.load(); //this actual load
     controller = fxmlLoader.getController();
     Scene scene = new Scene(root);
     stage.setTitle(bundle.getString(WINDOW_TITLE_KEY));
-    stage.getIcons().add(new Image(classLoader.getResourceAsStream(ICON_RESOURCE)));
+    stage.getIcons().add(new Image(Main.class.getResourceAsStream(ICON_RESOURCE)));
     stage.setResizable(true);
     stage.setScene(scene);
     stage.sizeToScene();
@@ -51,7 +51,7 @@ public class Main extends Application {
 
   @Override
   public void stop() throws Exception {
-//    controller.stop();
+    controller.stop();
     super.stop();
   }
 }
